@@ -1,1 +1,29 @@
 # ubuntu-kickstart
+
+Kickstart files to automate the build of Ubuntu servers. This originally existed as a [gist](https://gist.github.com/vrillusions/d292953ff9bc0e2041d9) but is now a full project to make it easier to find.
+
+## Overview
+
+To automate the installation of Ubuntu you have two options. First is Ubuntu's native format which is called preseeding. It seemed overly complex when I just wanted something to build a VM quickly. The other option is using a kickstart file. Kickstart files are used by the various RedHat based distros. Ubuntu implements a subset of the options and then lets you add preseed commands throughout it. So that's what I went with.
+
+## Configuration
+
+Here's what gets setup based on the distro and specific kickstart file you use.
+
+### Ubuntu 14.04
+
+No future updates are being made to this version of Ubuntu and is kept around mostly for reference.
+
+#### ks-1404minimalvm.cfg
+
+TBD
+
+## Usage
+
+TBD
+
+## License
+
+Creative Commons CC0 (public domain)
+
+To the extent possible under law, Todd Eddy has waived all copyright and related or neighboring rights to [Ubuntu Kickstart](https://github.com/vrillusions/ubuntu-kickstart). The full license text is available at <https://creativecommons.org/publicdomain/zero/1.0/>. This work is published from: United States
