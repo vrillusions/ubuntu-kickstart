@@ -6,48 +6,22 @@ Kickstart files to automate the build of Ubuntu servers. This originally existed
 
 To automate the installation of Ubuntu you have two options. First is Ubuntu's native format which is called preseeding. It seemed overly complex when I just wanted something to build a VM quickly. The other option is using a kickstart file. Kickstart files are used by the various RedHat based distros. Ubuntu implements a subset of the options and then lets you add preseed commands throughout it. So that's what I went with.
 
-## Configuration
+Each folder contains a readme with usage information and what is installed.
 
-Here's what gets setup based on the distro and specific kickstart file you use.  Files are heavily commented so any of this can be changed fairly easily.
+## Basic setup
 
-### Ubuntu 14.04
+To use any of these files you'll need some way for the server to pull down the config. When you use the `ks` option at boot Ubuntu will first bring up the networking using DHCP and once it has a network connection fetch the config.  At that point it will reset things and follow the config.  This means the config has to be someone on the network.  The config can be obtained via `http://`, `https://`, `ftp://`, or `nfs://`, at leaast based off the [initrd-kickseed](https://bazaar.launchpad.net/~ubuntu-installer/kickseed/master/view/head:/initrd-kickseed) file.  While you may be able to point directly to this git repo DO NOT DO THIS.  In doing so you are pulling a file from an external site and letting it run whatever it so desires on your fresh new server.  It's highly unlikely something bad is in there but a config could change in some way that you don't expect and then wonder why you server isn't building right.  This leave running your own web site.  If you have an external web page somewhere you can host it there.  I have a local web server I use.  This gives me some level of privacy in the config.  I still use a dummy password and then change it when I first connect.  Setting up a web server is out of scope for this project but you can find plenty of information on google on how to run a basic web server.
 
-No future updates are being made to this version of Ubuntu and is kept around mostly for reference.
+## Troubleshooting
 
-#### ks-1404minimalvm.cfg
+Some tips in case the install doesn't go to plan
 
-- Intended to be used when creating a virtual machine
-- Requires minimum 8GB disk
-- Initial user is `ubuntu` with password `ChangeMe`
-- Installs the following
-    - openssl
-    - wget
-    - curl
-    - tcpd
-    - openssh-server
-    - screen
-    - vim
-- Set vim background to dark
-- Change default umask from `022` to `027`, meaning files created are not world readable
-- Turns off installation of recommended packages
-- Enables automatic security updates
-- All partitions are `EXT4`
-- All partitions except `/boot` are in a LVM
-- After install, with 8GB disk, leaves about 1GB left to allocate to whatever partition you want using `lvextend`
-- See below for partition layout.
-
-| mount | size  | options         |
-| ----- | ----- | --------------- |
-| /boot | 512MB |                 |
-| /     | 1GB   | `noatime`       |
-| /usr  | 2GB   | `noatime,nodev` |
-| /var  | 1.5GB | `noatime,nodev` |
-| /home | 512MB | `noatime,nodev` |
-| swap  | 2GB   |                 |
-
-## Usage
-
-TBD
+- `ctrl-alt-F1` is the installer screen you normally see (to get back to it from other screens)
+- `ctrl-alt-F2` will let you bring up a terminal session
+- `ctrl-alt-F4` is a detail activity log
+- The `%post` section runs when you see `Running kickseed...` (at least in 16.04)
+- Any `echo` you have in `%post` will show in log but won't print to installer screen
+- Aftering entering the `ks=` option, add `DEBCONF_DEBUG=5` which will print out additional info to log
 
 ## License
 
