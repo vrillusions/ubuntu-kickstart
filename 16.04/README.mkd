@@ -36,6 +36,8 @@ Here's what gets setup based on the distro and specific kickstart file you use.
     - openssh-server
     - vim
     - latest version of git using [Ubuntu Git Maintainer's PPA](https://launchpad.net/~git-core/+archive/ubuntu/ppa)
+- I install git from the PPA since I generally want the latest version of git and that PPA is managed by the same people that manage the git package in Ubuntu so I trust them.
+- It's important to note that python v2.7 is not installed. This lines up with Ubuntu's announcement that 16.04 will not have python v2.7 installed by default.  All python stuff that ubuntu uses has been ported to python v3. Of course v2.7 is available but you will need to add `python2.7` package to list if you want it installed by default.
 - Set vim background to dark
 - Change default umask from `022` to `027`, meaning files created are not world readable
 - Turns off installation of recommended packages
