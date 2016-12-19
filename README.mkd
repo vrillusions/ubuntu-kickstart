@@ -23,7 +23,13 @@ Some tips in case the install doesn't go to plan
 - `ctrl-alt-F4` is a detail activity log
 - The `%post` section runs when you see `Running kickseed...` (at least in 16.04)
 - Any `echo` you have in `%post` will show in log but won't print to installer screen
-- Aftering entering the `ks=` option, add `DEBCONF_DEBUG=5` which will print out additional info to log
+- After entering the `ks=` option, add `DEBCONF_DEBUG=5` which will print out additional info to log
+
+## References
+
+- http://petersmithphotog.no-ip.biz/wiki/index.php/Unattended_Install
+- https://help.ubuntu.com/lts/installation-guide/amd64/ch04s06.html#kickstart
+- https://help.ubuntu.com/lts/installation-guide/amd64/apbs04.html
 
 ## License
 
