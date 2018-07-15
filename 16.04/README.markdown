@@ -1,6 +1,8 @@
 # Kickstart configs for Ubuntu 16.04
 
-This folder contains kickstart configs designed for Ubuntu 14.04
+- **Status**: stable
+
+This folder contains kickstart configs designed for Ubuntu 16.04
 
 ## Usage
 

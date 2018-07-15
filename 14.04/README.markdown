@@ -1,5 +1,7 @@
 # Kickstart configs for Ubuntu 14.04
 
+- **Status**: inactive
+
 This folder contains kickstart configs designed for Ubuntu 14.04
 
 ## No longer making changes
