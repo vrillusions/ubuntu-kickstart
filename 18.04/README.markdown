@@ -8,8 +8,9 @@ This folder contains kickstart configs designed for Ubuntu 18.04
 
 See [release notes](https://wiki.ubuntu.com/BionicBeaver/ReleaseNotes) for a complete list but some things worth noting.
 
-- Once again python 2.7 is not installed by default but this is also the last LTS release that will include python 2.7 in main. Also noticed no symlink is created for `python`. That means you must call python using `python3`.
+- Once again python 2.7 is not installed by default but this is also [the last LTS release that will include python 2.7 in main](https://wiki.ubuntu.com/BionicBeaver/ReleaseNotes#Other_base_system_changes_since_16.04_LTS). Also noticed no symlink is created for `python`. That means you must call python using `python3`.
 - Networking is now using [netplan.io](https://netplan.io/) for network interfaces and `systemd-resolved` for dns.
+    - TL;DR: network configuration is in `/etc/netplan/`.  DNS configs are in `/etc/systemd/resolved.conf` or `man systemd-resolved.service` for more info.
 - While these kickstarts don't install it by default `chrony` is the new recommended ntp server.  When no server is installed the system will make use of the built-in `systemd-timesyncd.service` which should keep it pretty close to accurate.
 
 ### Kickstart changes
@@ -18,13 +19,14 @@ Changes made to kickstart file compared to last release
 
 - mount `/dev/shm` with `rw,noexec,nodev,nosuid` to help prevent malware from getting installed.  Note that Ubuntu suggests using `/run/shm` but by default `/run/shm` symlinks to `/dev/shm`.
 - Change the console screen size to `1024x768x24`.  If this causes issues comment out the `add-kernal-opts` line towards top of kickstart.
+- Change the name of them to be `ks-1804-DESCRIPTION.cfg`
 
 ## Getting started
 
 - With 18.04 the default server iso is a live cd using Ubuntu's new install gui. Several features like lvm are not available with that image and so no testing has been performed.  Testing has been done with the [alternate install image](http://cdimage.ubuntu.com/releases/18.04/release/).  The netboot image should also work.
 - You will need a method of hosting the file.  Most common options are via a web server or nfs server.  This is beyond the scope of this project but there's no special configuration needed.  Just place the kickstart file you want in the nfs or web server and enter that address at boot.
 - The way kickstart is loaded is it first obtains an IP over dhcp.  At that point it connected to remote server specified with `ks=` option.  Resets networking and goes by what it says in kickstart file.  This means for things to Just Work out of the box your local network must have dhcp even if it's only a few ips with really short expire times.
-- These instructions and kickstart are designed to install a virtual machine.  Physical servers can be more tricky to determine the names of partitions and in general varies too much to create a standard kickstart file.
+- Most of these instructions are meant for installing to a virtual machine.  Physical servers should only take minor tweaks.
 
 ## Usage
 
@@ -46,7 +48,7 @@ Changes made to kickstart file compared to last release
 
 Here's what gets setup based on the distro and specific kickstart file you use.
 
-### ks-1804minimalvm.cfg
+### ks-1804-minimalvm.cfg
 
 This is the classic kickstart file that I've created with every LTS version.
 
@@ -110,3 +112,11 @@ tmpfs                     99M     0   99M   0% /run/user/1000
   VG  #PV #LV #SN Attr   VSize  VFree
   vg0   1   6   0 wz--n- <9.52g 2.37g
 ```
+
+### ks-1804-minimalvm-2disk.cfg
+
+This is more or less a clone of [ks-1804-minimalvm.cfg](#ks-1804-minimalvm.cfg).  But it allows setting up a second virtual drive.  This way the OS is on one virtual drive and data partitions like `/srv` are saved in a different one.  This allows moving the data drive to another vm or even copying it if you want.  The `%post` section is more complicated but should be somewhat easy to follow.  Current setup just creates a 5GB `/srv`
+
+### ks-1804-minimalphy.cfg
+
+I recently started renting a new dedicated server, what better time to try and write a kickstart file for a physical server.  The server is pretty run of the mill, single drive so it should just work and change the image from `ubuntu-server-minimalvm` to `ubuntu-server-minimal`.  Although I'm also going to figure out how to specify static IP and see if I can set a boot parameter without having to touch the kickstart for the hypotehtical case of setting up a bunch of servers with static IPs.
