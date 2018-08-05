@@ -61,7 +61,6 @@ This is the classic kickstart file that I've created with every LTS version.
 - Requires minimum 10GB disk
 - Initial user is `ubuntu` with password `ChangeMe`
 - Installs the following
-    - bash-completion
     - curl
     - latest version of git using [Ubuntu Git Maintainer's PPA](https://launchpad.net/~git-core/+archive/ubuntu/ppa)
     - man
@@ -70,6 +69,7 @@ This is the classic kickstart file that I've created with every LTS version.
     - vim
     - wget
 - Packages that are listed but commented out
+    - bash-completion - I use bash as my login shell but wouldn't say this is a requirement
     - chrony - will give more accurate time than timesyncd but not needed
     - haveged - seeds `/dev/random` with more entropy sources. This is useful with VMs where it's hard to get a lot of entropy.  Most of the use cases can get by without this but if you are running a service that uses a lot of encryption consider adding this
     - open-vm-tools - only useful if vm is running on VMWare and you don't plan to install VMWare's tools.
@@ -126,6 +126,17 @@ This is more or less a clone of [ks-1804-minimalvm.cfg](#ks-1804-minimalvm.cfg).
 ### ks-1804-minimalphy.cfg
 
 I recently started renting a new dedicated server, what better time to try and write a kickstart file for a physical server.  The server is pretty run of the mill, single drive so it should just work and change the image from `ubuntu-server-minimalvm` to `ubuntu-server-minimal`.  Although I'm also going to figure out how to specify static IP and see if I can set a boot parameter without having to touch the kickstart for the hypotehtical case of setting up a bunch of servers with static IPs.
+
+Main differences:
+
+- Commented out but first things I installed on server once it started up
+    - rsync
+    - time
+    - psmisc
+    - hdparm
+    - lsof
+    - pdns-recursor - This is [PowerDNS Recursor](https://www.powerdns.com/recursor.html) which is just the resolving component of powerdns.  It supports configuration but out of the box it works fine for most people.  Another popular one is [Unbound](https://nlnetlabs.nl/projects/unbound/about/).
+    - mlocate - not even added as a comment but on a physical host having `locate` may be useful
 
 This requires a little under 12GB as I add all the various partitions.  Since it's quite common for physical servers to use static ips it requires adding a few things to initial boot string.  This may wrap but it should all be on a single line when booting.
 
