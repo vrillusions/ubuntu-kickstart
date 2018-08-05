@@ -42,11 +42,17 @@ Changes made to kickstart file compared to last release
 - You'll first be prompted to choose language, go ahead and choose something and hit enter (note that the kickstart file sets language of system)
 - Press `F6` and then hit `ESC` and this will bring you to boot line.
 - At the end of the line add `ks=http://your-server.example.com/ks-1804minimalvm.cfg` or whatever you named file.
+    - Additional options you can add include `hostname=myhost` so you don't have to keep updating the kickstart file with different hostnames.
+    - Likewise adding `domain=example.com` will add default domain.  The FQDN of server will be `hostname` + `domain`.
 - Press `ENTER` to start the installation
 
 ## Configuration
 
 Here's what gets setup based on the distro and specific kickstart file you use.
+
+### Important information
+
+- For security all these kickstarts have a post command that sets the default umask on login from `022` (means group and world can read and execute/view directory contents) to `027` which will by default set no permissions for world.  Normally this is fine and prevents you from accidentally creating a new file and not realize it's world readable.  With this setup the `netplan` command to update network configuration does not work.  In short when you run that command as root it will create the network config under `/run`.  But since the file can only be read by root the networkd daemon, that runs as `systemd-network` can't read it.  Either type manually or I created a small shell script but prefix the command with a more open umask.  For example `umask 022; netplan try; umask 027`.  Since `netplan try` immediately reloads network with new config you can't chown the file which would be the preferred fix.  Since it's only an issue when you have to update the network config it doesn't inconvenience things much.  Just something to keep in mind if it's not working.
 
 ### ks-1804-minimalvm.cfg
 
@@ -120,3 +126,22 @@ This is more or less a clone of [ks-1804-minimalvm.cfg](#ks-1804-minimalvm.cfg).
 ### ks-1804-minimalphy.cfg
 
 I recently started renting a new dedicated server, what better time to try and write a kickstart file for a physical server.  The server is pretty run of the mill, single drive so it should just work and change the image from `ubuntu-server-minimalvm` to `ubuntu-server-minimal`.  Although I'm also going to figure out how to specify static IP and see if I can set a boot parameter without having to touch the kickstart for the hypotehtical case of setting up a bunch of servers with static IPs.
+
+This requires a little under 12GB as I add all the various partitions.  Since it's quite common for physical servers to use static ips it requires adding a few things to initial boot string.  This may wrap but it should all be on a single line when booting.
+
+```
+-- ks=http://example.com/kickstart.cfg hostname=myhost domain=example.com netcfg/disable_autoconfig=true netcfg/get_ipaddress=10.10.10.2 netcfg/get_netmask=255.255.255.0 netcfg/get_gateway=10.10.10.1 netcfg/get_nameservers=8.8.8.8 netcfg/confirm_static=true
+```
+
+What it all means
+
+Option | Description
+ks=http://example.com/kickstart.cfg | the location of your kickstart file
+hostname=myhost | hostname for server. can leave out if you set in kickstart
+domain=example.com | the domain for server. can leave out if you set in kickstart
+netcfg/disable_autoconfig=true | don't try asking for an address through dhcp
+netcfg/get_ipaddress=10.10.10.2 | the server's ip address
+netcfg/get_netmask=255.255.255.0 | the server's netmask
+netcfg/get_gateway=10.10.10.1 | the default gateway ip
+netcfg/get_nameservers=8.8.8.8 | one or more (separated by commas) dns servers. `8.8.8.8` is google's dns
+netcfg/confirm_static=true | automatically confirm this is correct
