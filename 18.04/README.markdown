@@ -1,6 +1,6 @@
 # Kickstart configs for Ubuntu 18.04
 
-- **Status**: beta (expect to be production a little after 18.04.1 comes out)
+- **Status**: stable
 
 This folder contains kickstart configs designed for Ubuntu 18.04
 
@@ -130,15 +130,36 @@ I recently started renting a new dedicated server, what better time to try and w
 Main differences:
 
 - Commented out but first things I installed on server once it started up
+    - bash-completion
     - rsync
     - time
     - psmisc
     - hdparm
+    - iptables - mostly of use when this is going on a remote dedicated server as they're usually wide open by default
     - lsof
     - pdns-recursor - This is [PowerDNS Recursor](https://www.powerdns.com/recursor.html) which is just the resolving component of powerdns.  It supports configuration but out of the box it works fine for most people.  Another popular one is [Unbound](https://nlnetlabs.nl/projects/unbound/about/).
+- Other packages to consider
+    - apt-transport-https - needed this to use docker.io apt source
+    - gpg-agent
     - mlocate - not even added as a comment but on a physical host having `locate` may be useful
 
-This requires a little under 12GB as I add all the various partitions.  Since it's quite common for physical servers to use static ips it requires adding a few things to initial boot string.  This may wrap but it should all be on a single line when booting.
+The partition sizing is based on actual server that's been running for several weeks with a few services on it.  This bumps the size to about 22GB.  Since it's a physical server it's assumed the drive on it would be at least 22GB.
+
+| mount    | size  | options                |
+| -------- | ----- | ---------------------- |
+| /boot    | 512MB | `noatime,nodev`        |
+| /        | 5GB   | `noatime`              |
+| /usr     | 5GB   | `noatime,nodev`        |
+| /srv     | 5GB   | `noatime,nodev`        |
+| /opt     | 2GB   | `noatime,nodev`        |
+| /var     | 2GB   | `noatime,nodev`        |
+| /var/log | 1GB   | `noatime,nodev,noexec` |
+| /home    | 1GB   | `noatime,nodev`        |
+| swap     | 2GB   |                        |
+| /dev/shm | tmpfs | `nosuid,nodev,noexec` |
+
+
+Since it's quite common for physical servers to use static ips it requires adding a few things to initial boot string.  This may wrap but it should all be on a single line when booting.
 
 ```
 -- ks=http://example.com/kickstart.cfg hostname=myhost domain=example.com netcfg/disable_autoconfig=true netcfg/get_ipaddress=10.10.10.2 netcfg/get_netmask=255.255.255.0 netcfg/get_gateway=10.10.10.1 netcfg/get_nameservers=8.8.8.8 netcfg/confirm_static=true
