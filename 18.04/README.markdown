@@ -41,7 +41,7 @@ Changes made to kickstart file compared to last release
 - Startup VM
 - You'll first be prompted to choose language, go ahead and choose something and hit enter (note that the kickstart file sets language of system)
 - Press `F6` and then hit `ESC` and this will bring you to boot line.
-- At the end of the line add `ks=http://your-server.example.com/ks-1804minimalvm.cfg` or whatever you named file.
+- At the end of the line add `ks=http://your-server.example.com/ks-1804-minimalvm.cfg` or whatever you named file.
     - Additional options you can add include `hostname=myhost` so you don't have to keep updating the kickstart file with different hostnames.
     - Likewise adding `domain=example.com` will add default domain.  The FQDN of server will be `hostname` + `domain`.
 - Press `ENTER` to start the installation
