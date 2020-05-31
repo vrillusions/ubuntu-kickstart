@@ -7,12 +7,12 @@ This folder contains kickstart configs designed for Ubuntu 16.04
 ## Usage
 
 - Make any modifications you wish to the config.
-    - the initial username and password
-    - if you setup an `apt-cache-ng` server, uncomment those lines and update the server addres.  Remember it's specified in two places.  Once towards the top which is used by installer and one in `%post` section which sets it up to be used in final system
-    - alter the partition layout if you wish
-    - add any more packages you wish to install
+  - the initial username and password
+  - if you setup an `apt-cache-ng` server, uncomment those lines and update the server addres.  Remember it's specified in two places.  Once towards the top which is used by installer and one in `%post` section which sets it up to be used in final system
+  - alter the partition layout if you wish
+  - add any more packages you wish to install
 - Create the VM just make sure the drive is at least 10GB
-    - for vmware users, you can create the network interface using `vmxnext3` as that is supported in the kernel
+  - for vmware users, you can create the network interface using `vmxnext3` as that is supported in the kernel
 - Attach the OS ISO to cdrom and make sure to activate it on boot
 - Startup VM
 - You'll first be prompted to choose language, go ahead and choose something and hit enter
@@ -30,14 +30,14 @@ Here's what gets setup based on the distro and specific kickstart file you use.
 - Requires minimum 10GB disk
 - Initial user is `ubuntu` with password `ChangeMe`
 - Installs the following
-    - openssl
-    - ca-certificates
-    - wget
-    - curl
-    - man
-    - openssh-server
-    - vim
-    - latest version of git using [Ubuntu Git Maintainer's PPA](https://launchpad.net/~git-core/+archive/ubuntu/ppa)
+  - openssl
+  - ca-certificates
+  - wget
+  - curl
+  - man
+  - openssh-server
+  - vim
+  - latest version of git using [Ubuntu Git Maintainer's PPA](https://launchpad.net/~git-core/+archive/ubuntu/ppa)
 - I install git from the PPA since I generally want the latest version of git and that PPA is managed by the same people that manage the git package in Ubuntu so I trust them.
 - It's important to note that python v2.7 is not installed. This lines up with Ubuntu's announcement that 16.04 will not have python v2.7 installed by default.  All python stuff that ubuntu uses has been ported to python v3. Of course v2.7 is available but you will need to add `python2.7` package to list if you want it installed by default.
 - Set vim background to dark
@@ -61,7 +61,7 @@ Here's what gets setup based on the distro and specific kickstart file you use.
 
 - Output from `df -h` and `vgs`
 
-```
+```plain
 Filesystem               Size  Used Avail Use% Mounted on
 udev                     365M     0  365M   0% /dev
 tmpfs                     75M  1.5M   73M   2% /run
@@ -76,8 +76,7 @@ tmpfs                    371M     0  371M   0% /sys/fs/cgroup
 /dev/mapper/vg0-var_log  465M   18M  420M   4% /var/log
 ```
 
-```
+```plain
   VG   #PV #LV #SN Attr   VSize VFree
   vg0    1   6   0 wz--n- 9.52g 2.37g
 ```
-

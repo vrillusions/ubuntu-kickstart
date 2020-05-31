@@ -30,10 +30,10 @@ Some tips in case the install doesn't go to plan
 
 ## References
 
-- https://help.ubuntu.com/lts/installation-guide/amd64/ch04s06.html#kickstart
-- https://help.ubuntu.com/lts/installation-guide/amd64/apbs04.html
-- https://help.ubuntu.com/community/KickstartCompatibility
-- https://help.ubuntu.com/community/StricterDefaults
+- <https://help.ubuntu.com/lts/installation-guide/amd64/ch04s06.html#kickstart>
+- <https://help.ubuntu.com/lts/installation-guide/amd64/apbs04.html>
+- <https://help.ubuntu.com/community/KickstartCompatibility>
+- <https://help.ubuntu.com/community/StricterDefaults>
 
 ## License
 

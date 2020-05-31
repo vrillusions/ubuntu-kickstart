@@ -18,13 +18,13 @@ Here's what gets setup based on the distro and specific kickstart file you use. 
 - Requires minimum 8GB disk
 - Initial user is `ubuntu` with password `ChangeMe`
 - Installs the following
-    - openssl
-    - wget
-    - curl
-    - tcpd
-    - openssh-server
-    - screen
-    - vim
+  - openssl
+  - wget
+  - curl
+  - tcpd
+  - openssh-server
+  - screen
+  - vim
 - Set vim background to dark
 - Change default umask from `022` to `027`, meaning files created are not world readable
 - Turns off installation of recommended packages

@@ -10,7 +10,7 @@ See [release notes](https://wiki.ubuntu.com/BionicBeaver/ReleaseNotes) for a com
 
 - Once again python 2.7 is not installed by default but this is also [the last LTS release that will include python 2.7 in main](https://wiki.ubuntu.com/BionicBeaver/ReleaseNotes#Other_base_system_changes_since_16.04_LTS). Also noticed no symlink is created for `python`. That means you must call python using `python3`.
 - Networking is now using [netplan.io](https://netplan.io/) for network interfaces and `systemd-resolved` for dns.
-    - TL;DR: network configuration is in `/etc/netplan/`.  DNS configs are in `/etc/systemd/resolved.conf` or `man systemd-resolved.service` for more info.
+  - TL;DR: network configuration is in `/etc/netplan/`.  DNS configs are in `/etc/systemd/resolved.conf` or `man systemd-resolved.service` for more info.
 - While these kickstarts don't install it by default `chrony` is the new recommended ntp server.  When no server is installed the system will make use of the built-in `systemd-timesyncd.service` which should keep it pretty close to accurate.
 
 ### Kickstart changes
@@ -31,19 +31,19 @@ Changes made to kickstart file compared to last release
 ## Usage
 
 - Make any modifications you wish to the config.
-    - the initial username and password
-    - if you setup an `apt-cacher-ng` server, uncomment those lines and update the server address.  Remember it's specified in two places.  Once towards the top which is used by installer and one in `%post` section which sets it up to be used in final system
-    - alter the partition layout if you wish
-    - add any more packages you wish to install
+  - the initial username and password
+  - if you setup an `apt-cacher-ng` server, uncomment those lines and update the server address.  Remember it's specified in two places.  Once towards the top which is used by installer and one in `%post` section which sets it up to be used in final system
+  - alter the partition layout if you wish
+  - add any more packages you wish to install
 - Create the VM just make sure the drive is at least 10GB
-    - for vmware users, you can create the network interface using `vmxnet3` as that is supported in the kernel
+  - for vmware users, you can create the network interface using `vmxnet3` as that is supported in the kernel
 - Attach the OS ISO to cdrom and make sure to activate it on boot
 - Startup VM
 - You'll first be prompted to choose language, go ahead and choose something and hit enter (note that the kickstart file sets language of system)
 - Press `F6` and then hit `ESC` and this will bring you to boot line.
 - At the end of the line add `ks=http://your-server.example.com/ks-1804-minimalvm.cfg` or whatever you named file.
-    - Additional options you can add include `hostname=myhost` so you don't have to keep updating the kickstart file with different hostnames.
-    - Likewise adding `domain=example.com` will add default domain.  The FQDN of server will be `hostname` + `domain`.
+  - Additional options you can add include `hostname=myhost` so you don't have to keep updating the kickstart file with different hostnames.
+  - Likewise adding `domain=example.com` will add default domain.  The FQDN of server will be `hostname` + `domain`.
 - Press `ENTER` to start the installation
 
 ## Configuration
@@ -61,18 +61,18 @@ This is the classic kickstart file that I've created with every LTS version.
 - Requires minimum 10GB disk
 - Initial user is `ubuntu` with password `ChangeMe`
 - Installs the following
-    - curl
-    - latest version of git using [Ubuntu Git Maintainer's PPA](https://launchpad.net/~git-core/+archive/ubuntu/ppa)
-    - man
-    - net-tools (includes commands like `netstat` and `ifconfig`)
-    - openssh-server
-    - vim
-    - wget
+  - curl
+  - latest version of git using [Ubuntu Git Maintainer's PPA](https://launchpad.net/~git-core/+archive/ubuntu/ppa)
+  - man
+  - net-tools (includes commands like `netstat` and `ifconfig`)
+  - openssh-server
+  - vim
+  - wget
 - Packages that are listed but commented out
-    - bash-completion - I use bash as my login shell but wouldn't say this is a requirement
-    - chrony - will give more accurate time than timesyncd but not needed
-    - haveged - seeds `/dev/random` with more entropy sources. This is useful with VMs where it's hard to get a lot of entropy.  Most of the use cases can get by without this but if you are running a service that uses a lot of encryption consider adding this
-    - open-vm-tools - only useful if vm is running on VMWare and you don't plan to install VMWare's tools.
+  - bash-completion - I use bash as my login shell but wouldn't say this is a requirement
+  - chrony - will give more accurate time than timesyncd but not needed
+  - haveged - seeds `/dev/random` with more entropy sources. This is useful with VMs where it's hard to get a lot of entropy.  Most of the use cases can get by without this but if you are running a service that uses a lot of encryption consider adding this
+  - open-vm-tools - only useful if vm is running on VMWare and you don't plan to install VMWare's tools.
 - I install git from the PPA since I generally want the latest version of git and that PPA is managed by the same people that manage the git package in Ubuntu so I trust them.
 - Set [XDG Base Directories](https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html).  While it shouldn't be needed unless different from default I've had programs not write to the proper directory unless these variables exist.
 - Set vim background to dark.
@@ -93,12 +93,12 @@ This is the classic kickstart file that I've created with every LTS version.
 | /var/log | 512MB | `noatime,nodev,noexec` |
 | /home    | 512MB | `noatime,nodev`        |
 | swap     | 2GB   |                        |
-| /dev/shm | tmpfs | `nosuid,nodev,noexec` |
+| /dev/shm | tmpfs | `nosuid,nodev,noexec`  |
 
 - One note on partitions. Starting in version 17.04 it was [announced](http://blog.surgut.co.uk/2016/12/swapfiles-by-default-in-ubuntu.html) that by default on non-lvm volumes a swapfile will be created instead of a swap partition.  Reasoning is it's easier to adjust the size of a swapfile later vs repartitioning disk.  For LVM it creates a swap logical volume inside the volume group.  This is because when using snapshots a changing swapfile will increase size of snapshot.  This is why it doesn't use a swapfile.
 - Output from `df -h` and `vgs`
 
-```
+```plain
 Filesystem               Size  Used Avail Use% Mounted on
 udev                     482M     0  482M   0% /dev
 tmpfs                     99M  624K   98M   1% /run
@@ -114,7 +114,7 @@ tmpfs                    493M     0  493M   0% /sys/fs/cgroup
 tmpfs                     99M     0   99M   0% /run/user/1000
 ```
 
-```
+```plain
   VG  #PV #LV #SN Attr   VSize  VFree
   vg0   1   6   0 wz--n- <9.52g 2.37g
 ```
@@ -130,18 +130,18 @@ I recently started renting a new dedicated server, what better time to try and w
 Main differences:
 
 - Commented out but first things I installed on server once it started up
-    - bash-completion
-    - rsync
-    - time
-    - psmisc
-    - hdparm
-    - iptables - mostly of use when this is going on a remote dedicated server as they're usually wide open by default
-    - lsof
-    - pdns-recursor - This is [PowerDNS Recursor](https://www.powerdns.com/recursor.html) which is just the resolving component of powerdns.  It supports configuration but out of the box it works fine for most people.  Another popular one is [Unbound](https://nlnetlabs.nl/projects/unbound/about/).
+  - bash-completion
+  - rsync
+  - time
+  - psmisc
+  - hdparm
+  - iptables - mostly of use when this is going on a remote dedicated server as they're usually wide open by default
+  - lsof
+  - pdns-recursor - This is [PowerDNS Recursor](https://www.powerdns.com/recursor.html) which is just the resolving component of powerdns.  It supports configuration but out of the box it works fine for most people.  Another popular one is [Unbound](https://nlnetlabs.nl/projects/unbound/about/).
 - Other packages to consider
-    - apt-transport-https - needed this to use docker.io apt source
-    - gpg-agent
-    - mlocate - not even added as a comment but on a physical host having `locate` may be useful
+  - apt-transport-https - needed this to use docker.io apt source
+  - gpg-agent
+  - mlocate - not even added as a comment but on a physical host having `locate` may be useful
 
 The partition sizing is based on actual server that's been running for several weeks with a few services on it.  This bumps the size to about 22GB.  Since it's a physical server it's assumed the drive on it would be at least 22GB.
 
@@ -156,24 +156,24 @@ The partition sizing is based on actual server that's been running for several w
 | /var/log | 1GB   | `noatime,nodev,noexec` |
 | /home    | 1GB   | `noatime,nodev`        |
 | swap     | 2GB   |                        |
-| /dev/shm | tmpfs | `nosuid,nodev,noexec` |
-
+| /dev/shm | tmpfs | `nosuid,nodev,noexec`  |
 
 Since it's quite common for physical servers to use static ips it requires adding a few things to initial boot string.  This may wrap but it should all be on a single line when booting.
 
-```
+```plain
 -- ks=http://example.com/kickstart.cfg hostname=myhost domain=example.com netcfg/disable_autoconfig=true netcfg/get_ipaddress=10.10.10.2 netcfg/get_netmask=255.255.255.0 netcfg/get_gateway=10.10.10.1 netcfg/get_nameservers=8.8.8.8 netcfg/confirm_static=true
 ```
 
 What it all means
 
-Option | Description
-ks=http://example.com/kickstart.cfg | the location of your kickstart file
-hostname=myhost | hostname for server. can leave out if you set in kickstart
-domain=example.com | the domain for server. can leave out if you set in kickstart
-netcfg/disable_autoconfig=true | don't try asking for an address through dhcp
-netcfg/get_ipaddress=10.10.10.2 | the server's ip address
-netcfg/get_netmask=255.255.255.0 | the server's netmask
-netcfg/get_gateway=10.10.10.1 | the default gateway ip
-netcfg/get_nameservers=8.8.8.8 | one or more (separated by commas) dns servers. `8.8.8.8` is google's dns
-netcfg/confirm_static=true | automatically confirm this is correct
+| Option                                | Description                                                              |
+| ------------------------------------- | ------------------------------------------------------------------------ |
+| `ks=http://example.com/kickstart.cfg` | the location of your kickstart file                                      |
+| `hostname=myhost`                     | hostname for server. can leave out if you set in kickstart               |
+| `domain=example.com`                  | the domain for server. can leave out if you set in kickstart             |
+| `netcfg/disable_autoconfig=true`      | don't try asking for an address through dhcp                             |
+| `netcfg/get_ipaddress=10.10.10.2`     | the server's ip address                                                  |
+| `netcfg/get_netmask=255.255.255.0`    | the server's netmask                                                     |
+| `netcfg/get_gateway=10.10.10.1`       | the default gateway ip                                                   |
+| `netcfg/get_nameservers=8.8.8.8`      | one or more (separated by commas) dns servers. `8.8.8.8` is google's dns |
+| `netcfg/confirm_static=true`          | automatically confirm this is correct                                    |

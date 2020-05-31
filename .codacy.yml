@@ -1,0 +1,5 @@
+---
+language:
+  json:
+    extensions:
+      - '.remarkrc'
