@@ -1,2 +1,7 @@
 # Normalize line endings of text files
 * text=auto
+
+# Some files and folders not to include in archives
+/.github export-ignore
+/.codacy.yml export-ignore
+.gitignore export-ignore

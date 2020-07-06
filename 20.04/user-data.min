@@ -1,0 +1,9 @@
+#cloud-config
+# vim: ft=yaml:
+autoinstall:
+  version: 1
+  identity:
+    hostname: ubuntu2004
+    password: $6$e9XpjBZVkbL.8nk9$t/2A8jwJvYRcVCiCo/d/6vu8Ix3ZOEqRRN1KpwKSt91dTnR7KmYi7YeVK.uRB40LfFdsaX88UsNo5Vbjt5p/D0
+    realname: ubuntu
+    username: ubuntu
