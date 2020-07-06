@@ -1,5 +1,7 @@
 # ubuntu-kickstart
 
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/22ef38ccee974c33a7eb8fb02e35e09a)](https://www.codacy.com/manual/vrillusions/ubuntu-kickstart?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=vrillusions/ubuntu-kickstart&amp;utm_campaign=Badge_Grade)
+
 Kickstart files to automate the build of Ubuntu servers. This originally existed as a [gist](https://gist.github.com/vrillusions/d292953ff9bc0e2041d9) but is now a full project to make it easier to find.
 
 ## Overview
