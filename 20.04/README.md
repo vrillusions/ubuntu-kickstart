@@ -9,9 +9,24 @@ This folder contains autoinstall configs designed for Ubuntu 20.04
 ## Notable changes since 18.04
 
 - Biggest change is preseed and kickstart files are deprecated in favor of `cloud-init`.
-- Using `ks=http://example.com/install.ks` on boot command appears to have no effect now.
-- Alternate install is deprecated and all isntalls are supposed to use the full install iso.
+- Using `ks=http://example.com/install.ks` on boot command requires using the `legacy-server` image.
+- Alternate install is deprecated, renamed to `legacy-server` install and all installs are supposed to use the full install iso.
 - It appears the new installer copies a base disk image to target system which makes the previous hack of trimming down the install by not installing recommended packages ineffective.
+
+## Using kickstart files
+
+It is still possible to use kickstart files.  Keep in mind Canonical is making it clear that it's going away soon so may want to get used to the new isntaller.  Because of it being deprecated and because 18.04 kickstarts seem to still just work I'm only providing an example `minimal vm` kickstart file
+
+- Download the latest [ubuntu-legacy-server](http://cdimage.ubuntu.com/ubuntu-legacy-server/releases/20.04/release/) image
+- Place `ks-2004-minimalvm.cfg` on a web server the vm can see.  Testing the kickstart file from 18.04 seems to work without modification.
+    - Only modification I've made to 20.04 kickstart file is default size of `/usr` is now 3GB.
+- TBD but do all the stuff mentioned in 18.04 for creating destination vm.
+- After creating vm boot from legacy server iso.
+- Choose language.
+- Press `F6` and then press `ESC` to get to command line.
+- Enter the following at end of command, replacing the URL with the address to where the above files are located
+    - `ks=http://example.com/ks-2004-minimalvm.cfg`
+- Press enter to start the install process.
 
 ## Basic usage
 
